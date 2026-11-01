@@ -1,3 +1,5 @@
+"""Train the five classifiers and save models, holdout data, and metrics."""
+
 from __future__ import annotations
 
 import json
@@ -33,6 +35,7 @@ def main() -> None:
     full_dataset[TARGET_COLUMN] = labels
     full_dataset.to_csv(DATASET_PATH, index=False)
 
+    # Stratification preserves the class balance in both training and held-out data.
     train_features, test_features, train_labels, test_labels = train_test_split(
         features,
         labels,
@@ -50,6 +53,7 @@ def main() -> None:
     for key, model in build_models().items():
         model.fit(train_features, train_labels)
         joblib.dump(model, MODEL_DIR / f"{key}.joblib")
+        # Evaluate only against the holdout split; it is never used to fit a model.
         results[MODEL_NAMES[key]] = calculate_metrics(
             model, test_features, test_labels
         )

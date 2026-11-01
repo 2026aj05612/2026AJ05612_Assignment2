@@ -1,3 +1,5 @@
+"""Streamlit interface for evaluating the saved tumor classification models."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -62,6 +64,7 @@ if any(not path.is_file() for path in model_paths.values()):
     st.stop()
 
 models = {name: joblib.load(path) for name, path in model_paths.items()}
+# Use the selected saved model's feature order so every classifier gets the schema it was trained on.
 expected_features = list(models[selected_name].feature_names_in_)
 missing_features = [name for name in expected_features if name not in data.columns]
 if missing_features:
@@ -87,6 +90,7 @@ results = {
     name: calculate_metrics(model, features, labels)
     for name, model in models.items()
 }
+# Present metrics consistently regardless of the order returned by the models.
 comparison = pd.DataFrame.from_dict(results, orient="index")
 comparison = comparison.loc[:, METRIC_COLUMNS]
 
@@ -97,6 +101,7 @@ st.bar_chart(comparison)
 st.subheader(f"{selected_name} — detailed evaluation")
 selected_model = models[selected_name]
 predictions = selected_model.predict(features)
+# Keep the positive/negative class ordering consistent in both detailed outputs.
 report = classification_report(
     labels,
     predictions,

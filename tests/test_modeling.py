@@ -1,3 +1,5 @@
+"""Test model construction and required evaluation metric calculations."""
+
 import unittest
 
 import pandas as pd
@@ -14,6 +16,7 @@ class ModelEvaluationTests(unittest.TestCase):
         labels = pd.Series(
             dataset.target.map(dict(enumerate(dataset.target_names)))
         )
+        # Match the training script's split so the test checks the same evaluation setup.
         train_x, test_x, train_y, test_y = train_test_split(
             features, labels, test_size=0.2, random_state=42, stratify=labels
         )

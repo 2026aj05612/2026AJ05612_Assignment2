@@ -1,3 +1,5 @@
+"""Define the classifiers and evaluation metrics used by the assignment."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -34,6 +36,7 @@ MODEL_NAMES = {
 
 
 def build_models() -> dict[str, Any]:
+    # Scale distance- and margin-based models; tree and Gaussian NB use raw features.
     return {
         "logistic_regression": Pipeline(
             [
@@ -56,6 +59,7 @@ def build_models() -> dict[str, Any]:
                     "classifier",
                     CalibratedClassifierCV(
                         estimator=SVC(random_state=42),
+                        # Calibration enables probability-based AUC evaluation for SVC.
                         ensemble=False,
                     ),
                 ),
@@ -67,6 +71,7 @@ def build_models() -> dict[str, Any]:
 def calculate_metrics(model: Any, features: Any, labels: Any) -> dict[str, float]:
     predictions = model.predict(features)
     class_names = list(model.classes_)
+    # Find this class dynamically rather than assuming a fixed probability-column order.
     positive_index = class_names.index(POSITIVE_CLASS)
     positive_probabilities = model.predict_proba(features)[:, positive_index]
 
