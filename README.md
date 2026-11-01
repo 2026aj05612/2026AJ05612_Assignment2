@@ -28,8 +28,7 @@ testing the models on data they were trained on.
 
 ## GitHub Repository Link
 
-**Repository:** `https://github.com/2026aj05612/2026AJ05612_Assignment2`  
-Replace this placeholder with the public URL after pushing this project.
+**Repository:** `https://github.com/2026aj05612/2026AJ05612_Assignment2`
 
 ## Models used
 
@@ -70,8 +69,7 @@ must include all 30 feature columns and a `diagnosis` column containing only
 along with a confusion matrix and classification report for the selected
 model. No model is retrained in the app.
 
-**Live Streamlit app:** `https://<your-app-name>.streamlit.app`  
-Replace this placeholder with the deployed app URL.
+**Live Streamlit app:** `https://2026aj05612assignment2-l5ai6yugnd29vdsrcqbihw.streamlit.app/`
 
 ## Repository contents
 
